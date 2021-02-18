@@ -3,7 +3,7 @@ module TaskHelpers
     class << self
       def ping
         while true do
-          Product.where(notified: false).each do |product|
+          Product.all.each do |product|
             PingProductJob.perform_now(product.id)
           end
           Rails.logger.info("Sleeping...")
