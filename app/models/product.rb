@@ -10,4 +10,11 @@
 #  updated_at  :datetime         not null
 #
 class Product < ApplicationRecord
+  def mark_notified!
+    self.update!(notified: true)
+  end
+
+  def unmark_notified!
+    self.update!(notified: false)
+  end
 end
