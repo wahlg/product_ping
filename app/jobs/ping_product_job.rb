@@ -1,5 +1,5 @@
 class PingProductJob < ApplicationJob
-  queue_as :default
+  queue_as :products
 
   def perform(product_id)
     Rails.logger.info("Starting #{self.class.name} job")
