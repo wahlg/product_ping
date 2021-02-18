@@ -2,7 +2,7 @@ class PingProductJob < ApplicationJob
   queue_as :products
 
   def perform(product_id)
-    Rails.logger.info("Starting #{self.class.name} job")
+    Rails.logger.info("Starting #{self.class.name}.")
     product = Product.find(product_id)
     contents = read_product_url(product)
     in_stock = parse_is_in_stock?(contents)
@@ -23,7 +23,7 @@ class PingProductJob < ApplicationJob
       if product.notified?
         notify_no_longer_in_stock(product)
       else
-        Rails.logger.info("Product '#{product.name}' is still not in stock.")
+        log_still_not_in_stock
       end
     end
   end
@@ -37,7 +37,7 @@ class PingProductJob < ApplicationJob
   end
 
   def notify_in_stock(product)
-    Rails.logger.info("Product '#{product.name}' is in stock! Notifying.")
+    Rails.logger.info("Product '#{product.name}' is in stock!")
     EmailClient.send_notification_in_stock(product)
     product.mark_notified!
   end
@@ -46,5 +46,9 @@ class PingProductJob < ApplicationJob
     Rails.logger.info("Product '#{product.name}' is no longer in stock :(")
     EmailClient.send_notification_no_longer_in_stock(product)
     product.unmark_notified!
+  end
+
+  def log_still_not_in_stock
+    Rails.logger.info("Product '#{product.name}' is still not in stock.")
   end
 end
