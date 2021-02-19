@@ -4,7 +4,8 @@ class PingProductJob < ApplicationJob
   def perform(product_id)
     Rails.logger.info("Starting #{self.class.name}.")
     @product = Product.find(product_id)
-    page_contents = read_product_page_contents
+    page_contents, succeeded = read_product_page_contents
+    return if !succeeded
     in_stock = parse_is_in_stock?(page_contents)
     possibly_notify(in_stock)
   end
@@ -13,10 +14,10 @@ class PingProductJob < ApplicationJob
 
   def read_product_page_contents
     file = URI.parse(@product.url).open
-    file.read
+    [file.read, true]
   rescue StandardError => e
     Rails.logger.error("Failed to fetch product at url '#{@product.url}'")
-    ""
+    ["", false]
   end
 
   def possibly_notify(in_stock)

@@ -1,1 +1,1 @@
-product_ping_worker: QUEUE=products rails products:ping
+product_ping_worker: QUEUE=products bundle exec rake products:ping
