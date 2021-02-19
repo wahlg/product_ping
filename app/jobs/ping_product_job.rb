@@ -46,12 +46,12 @@ class PingProductJob < ApplicationJob
 
   def update_in_stock
     Rails.logger.info("Product '#{@product.name}' changed to be in stock.")
-    product.mark_notified!
+    @product.mark_notified!
   end
 
   def update_no_longer_in_stock
     Rails.logger.info("Product '#{@product.name}' changed to be no longer in stock :(")
-    product.unmark_notified!
+    @product.unmark_notified!
   end
 
   def log_still_in_stock
