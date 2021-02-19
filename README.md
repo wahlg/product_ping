@@ -1,6 +1,19 @@
 # product_ping
 Ping products to check their in-stock status
 
+## Dependencies
+ProductPing depends on [Amazon SES](https://aws.amazon.com/ses/) to send emails.
+
+## Configuration
+Set these environment variables:
+```
+FROM_EMAIL="from@example.com"
+TO_EMAIl="your.email@example.com"
+AWS_ACCESS_KEY_ID=<id>
+AWS_SECRET_ACCESS_KEY=<secret>
+AWS_REGION=<region>
+```
+
 ## Setup
 
 Create some products to follow:
