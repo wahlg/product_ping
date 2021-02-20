@@ -25,3 +25,8 @@ Run this daemon to ping products every 30 seconds:
 ```
 rails products:ping
 ```
+
+Run this worked to process the delayed jobs:
+```
+QUEUE=products bundle exec rake jobs:work
+```

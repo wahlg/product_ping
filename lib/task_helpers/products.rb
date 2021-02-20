@@ -2,9 +2,9 @@ module TaskHelpers
   class Products
     class << self
       def ping
-        while true do
+        loop do
           Product.all.each do |product|
-            PingProductJob.perform_now(product.id)
+            PingProductJob.perform_later(product.id)
           end
           Rails.logger.info("Sleeping...")
           sleep 30
