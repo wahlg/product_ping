@@ -2,6 +2,7 @@
   "name": "product_ping",
   "private": true,
   "dependencies": {
+    "@pm2/pm2-version-check": "^1.0.3",
     "pm2": "^4.5.4"
   },
   "scripts": {
