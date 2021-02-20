@@ -6,22 +6,27 @@ class PingProductJob < ApplicationJob
     @product = Product.find(product_id)
     page_contents, succeeded = read_product_page_contents
     return if !succeeded
-    in_stock = parse_is_in_stock?(page_contents)
-    possibly_notify(in_stock)
+    domain = UrlUtils.domain_from_url(@product.url)
+    has_expected_content = PageParser.page_has_expected_content?(page_contents, domain)
+    possibly_notify(has_expected_content)
   end
 
   private
 
   def read_product_page_contents
     file = URI.parse(@product.url).open
-    [file.read, true]
+    contents = file.read
+    if contents.blank?
+      return [contents, false]
+    end
+    [contents, true]
   rescue StandardError => e
     Rails.logger.error("Failed to fetch product at url '#{@product.url}'")
     ["", false]
   end
 
-  def possibly_notify(in_stock)
-    if in_stock
+  def possibly_notify(has_expected_content)
+    if has_expected_content
       if @product.notified?
         log_still_in_stock
       else
@@ -33,14 +38,6 @@ class PingProductJob < ApplicationJob
       else
         log_still_not_in_stock
       end
-    end
-  end
-
-  def parse_is_in_stock?(page_contents)
-    if page_contents !~ /OUT OF STOCK/
-      true
-    else
-      false
     end
   end
 

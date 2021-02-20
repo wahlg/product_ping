@@ -1,5 +1,10 @@
 # product_ping
-Ping products to check their in-stock status
+Ping products to check their in-stock status.
+
+Currently supported vendors:
+ - [Newegg](https://www.newegg.com/)
+ - [Bestbuy](https://www.bestbuy.com/)
+
 
 ## Dependencies
 ProductPing depends on [Amazon SES](https://aws.amazon.com/ses/) to send emails.
@@ -16,8 +21,8 @@ AWS_REGION=<region>
 
 ## Setup
 
-Create some products to follow:
-```
+Create some products to follow, including their full product URL:
+```ruby
 Product.create!(name: "Some cool product", url: "https://www.newegg.com/p/N82E16824012018?Description=monitor&cm_re=monitor-_-24-012-018-_-Product&quicklink=true")
 ```
 
@@ -28,5 +33,5 @@ rails products:ping
 
 Run this worked to process the delayed jobs:
 ```
-QUEUE=products bundle exec rake jobs:work
+QUEUE=products rails jobs:work
 ```
