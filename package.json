@@ -1,5 +1,10 @@
 {
   "name": "product_ping",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "pm2": "^4.5.4"
+  },
+  "scripts": {
+    "start": "pm2-runtime start ecosystem.config.js --env production"
+  }
 }
