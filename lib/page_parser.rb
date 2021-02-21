@@ -12,7 +12,7 @@ class PageParser
     end
 
     def bestbuy_page_has_expected_content?(page_contents)
-      if page_contents !~ /Sold Out/
+      if page_contents =~ /Add to Cart/ && page_contents !~ /Sold Out/
         true
       else
         false
@@ -20,7 +20,7 @@ class PageParser
     end
 
     def newegg_page_has_expected_content?(page_contents)
-      if page_contents !~ /OUT OF STOCK/
+      if page_contents =~ /In stock/ && page_contents !~ /OUT OF STOCK/
         true
       else
         false
